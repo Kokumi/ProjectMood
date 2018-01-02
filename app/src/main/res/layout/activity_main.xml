@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context="com.debruyckere.florian.moodproject.Controller.MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/main_history_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="History"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"/>
+    <Button
+        android:id="@+id/main_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add comment"
+        app:layout_constraintBottom_toTopOf="parent"
+        />
+    <ImageView
+        android:id="@+id/main_emote_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/main_GuideLine"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginRight="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        />
+    <android.support.constraint.Guideline
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/main_GuideLine"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"
+        />
 
 </android.support.constraint.ConstraintLayout>
