@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,15 +16,20 @@ import com.debruyckere.florian.moodproject.Model.Emotion;
 import com.debruyckere.florian.moodproject.Model.EmotionType;
 import com.debruyckere.florian.moodproject.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences = getSharedPreferences("EmoteSave",MODE_PRIVATE);
     private ImageView mCommentImage;
     private ImageView mHistoryImage;
     private ImageView mImageView;
     private Emotion mEmotion= new Emotion();
     private EmotionType mType;
+    private int emotionSize=0;
     InputMethodManager imm;
-    Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +75,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     public void addEmotion(){
         mEmotion.setEmote(mType);
+        SharedPreferences.Editor editor= mSharedPreferences.edit();
+        editor.putString(todayToString()+"_Type",mType.toString());
+        editor.putString(todayToString()+"_com",mEmotion.getComment());
+        editor.commit();
     }
+
     public void EmotionSetText(String pText){
         mEmotion.setComment(pText);
         Toast.makeText(MainActivity.this, pText,Toast.LENGTH_LONG).show();
     }
+
+    private String todayToString(){
+        String retour;
+        Date d = Calendar.getInstance().getTime();
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
+        retour = dateFormat.format(d);
+
+        return retour;
+    }
 }
+// EmotionType.valueof(String) get Enum by string
+// String st=dateFormat.format(d.getTime()-1000*60*60*24);   get previous date
+

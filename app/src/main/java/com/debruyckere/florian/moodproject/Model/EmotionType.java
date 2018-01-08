@@ -1,13 +1,22 @@
 package com.debruyckere.florian.moodproject.Model;
 
 /**
- * Created by Debruyckère Florian on 01/01/2018.
+ * Created by Debruyckère Florian on 05/01/2018.
  */
 
-public interface EmotionType {
-    String VeryBad = "VeryBad";
-    String Bad = "Bad";
-    String Normal = "Normal";
-    String Good = "Good";
-    String VeryGood = "VeryGood";
+public enum EmotionType {
+    VeryBad ("VeryBad"),
+    Bad ("Bad"),
+    Normal("Normal"),
+    Good("Good"),
+    Great("Great");
+
+    private String emoteName = "";
+
+    EmotionType(String pName){
+        this.emoteName = pName;
+    }
+    public String toString(){
+        return emoteName;
+    }
 }
