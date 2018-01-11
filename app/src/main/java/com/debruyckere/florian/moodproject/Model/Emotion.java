@@ -1,5 +1,7 @@
 package com.debruyckere.florian.moodproject.Model;
 
+import java.util.Date;
+
 /**
  * Created by Debruyckère Florian on 01/01/2018.
  */
@@ -7,6 +9,7 @@ package com.debruyckere.florian.moodproject.Model;
 public class Emotion {
     private String mComment;
     private EmotionType mEmote;
+    private Date mDate;
 
     public Emotion(EmotionType pEmote){
         mEmote = pEmote;
@@ -26,6 +29,14 @@ public class Emotion {
 
     public EmotionType getEmote() {
         return mEmote;
+    }
+
+    public Date getDate() {
+        return mDate;
+    }
+
+    public void setDate(Date date) {
+        mDate = date;
     }
 
     @Override

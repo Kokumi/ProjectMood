@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -22,13 +23,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences mSharedPreferences = getSharedPreferences("EmoteSave",MODE_PRIVATE);
+    private SharedPreferences mSharedPreferences;
     private ImageView mCommentImage;
     private ImageView mHistoryImage;
     private ImageView mImageView;
     private Emotion mEmotion= new Emotion();
     private EmotionType mType;
     private int emotionSize=0;
+    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
     InputMethodManager imm;
 
     @Override
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mSharedPreferences=getSharedPreferences("EmoteSave",MODE_PRIVATE);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mCommentImage =findViewById(R.id.main_comment_image);
         mHistoryImage = findViewById(R.id.main_history_image);
@@ -72,32 +75,45 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "History", Toast.LENGTH_SHORT).show();
             }
         });
-
+        todayToString();
 
     }
 
+    /**
+     * save a new emotion in preferences
+     */
     public void addEmotion(){
+        Log.i("MAIN","add emotion");
         mEmotion.setEmote(mType);
         SharedPreferences.Editor editor= mSharedPreferences.edit();
         editor.putString(todayToString()+"_Type",mType.toString());
         editor.putString(todayToString()+"_com",mEmotion.getComment());
+        editor.putString(todayToString()+"_date",todayToString());
         editor.commit();
     }
 
+    /**
+     * add comment to a emotion
+     * @param pText
+     *              the comment to add
+     */
     public void EmotionSetText(String pText){
+        Log.i("MAIN","add comment: "+pText);
         mEmotion.setComment(pText);
         Toast.makeText(MainActivity.this, pText,Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * transform the today in string
+     * @return
+     * today in string
+     */
     private String todayToString(){
+        Log.i("MAIN","transform today to string");
         String retour;
         Date d = Calendar.getInstance().getTime();
-        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
         retour = dateFormat.format(d);
-
+        Log.i("MAIN",retour);
         return retour;
     }
 }
-// EmotionType.valueof(String) get Enum by string
-// String st=dateFormat.format(d.getTime()-1000*60*60*24);   get previous date
-
