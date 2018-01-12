@@ -4,10 +4,16 @@ package com.debruyckere.florian.moodproject.Model;
  * Created by Debruyckère Florian on 01/01/2018.
  */
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,26 +41,41 @@ import static android.content.Context.MODE_PRIVATE;
 public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHolder> {
 
     private Context mContext;
-    private SharedPreferences mSharedPreferences= mContext.getSharedPreferences("EmoteSave",MODE_PRIVATE);
+    private SharedPreferences mSharedPreferences;
     private List<Emotion> mEmotions=new ArrayList<>();
+    private NoDataReaction mListener;
 
     DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 
-    public EmotionAdapter(Context pContext){
+    //Builder
+    public EmotionAdapter(Context pContext, NoDataReaction pListener){
         mContext = pContext;
+        mListener = pListener;
+        mSharedPreferences = mContext.getSharedPreferences("EmoteSave",MODE_PRIVATE);
         LoadEmote();
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Emotion emotion = mEmotions.get(position);
+        Emotion emotion = new Emotion();
+        if(mEmotions.size()!=0) {
+            emotion = mEmotions.get(position);
+        }
+        else {
+            emotion.setDate(Calendar.getInstance().getTime());
+            emotion.setEmote(EmotionType.VeryBad);
+            emotion.setComment("no data");
+
+            mListener.noDataReaction();
+        }
         holder.display(emotion);
 
     }
 
+
     @Override
     public int getItemCount() {
-        return 0;
+        return 7;
     }
 
     /**
@@ -64,20 +85,28 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         Log.i("ADAPTER","Emote Loading");
         Date d= Calendar.getInstance().getTime();
         for(int i=1;i<8;i++){
-            Emotion mEmote = new Emotion();
-            mEmote.setEmote(EmotionType.valueOf(
-                    mSharedPreferences.getString(dateFormat.format(d.getTime()-(1000*60*60*24)*i)+"_Type",
-                    "Normal")));
-            mEmote.setComment(
-                    mSharedPreferences.getString(dateFormat.format(d.getTime()-(1000*60*60*24)*i)+"_com",
-                    "Normal"));
-            mEmote.setDate(stringToDate(
-                    mSharedPreferences.getString(dateFormat.format(d.getTime()-(1000*60*60*24)*i)+"_date",
-                            "")));
-            mEmotions.add(mEmote);
+            //verify if sharedpreferences have data here
+            if(mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i), null)!=null) {
+                Emotion mEmote = new Emotion();
+                mEmote.setEmote(EmotionType.valueOf(
+                        mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_Type",
+                                "Normal")));
+                mEmote.setComment(
+                        mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_com",
+                                null));
+                mEmote.setDate(stringToDate(
+                        mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_date",
+                                null)));
+                mEmotions.add(mEmote);
+            }
         }
     }
 
+    /**
+     * convert a String parameter to a date
+     * @param pString
+     * @return
+     */
     private Date stringToDate(String pString){
         Date retour;
        try{
@@ -85,7 +114,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
             retour = simpleFormat.parse(pString);
             return retour;
         }catch (ParseException e){
-            Log.i("ADAPTER","String to Date parse problem \n"+e);
+            Log.i("ADAPTER","String to Date parse error \n"+e);
         }
        return null;
     }
@@ -98,14 +127,19 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         return new MyViewHolder(view);
     }
 
-    private ImageView mCommentImage;
-    private TextView mDayText;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
+
+        private ImageView mCommentImage;
+        private TextView mDayText;
+        private ConstraintLayout cl;
         private String emoteComment = "";
+
         public MyViewHolder(final View itemView) {
             super(itemView);
 
+            cl= itemView.findViewById(R.id.cell_Layout);
             mCommentImage = itemView.findViewById(R.id.cell_Image);
             mDayText = itemView.findViewById(R.id.cell_Text);
             mCommentImage.setVisibility(View.INVISIBLE);
@@ -120,11 +154,25 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         }
 
         public void display(Emotion pEmotion){
+            // display the comment image if the emotion have a comment
             if(pEmotion.getComment()!=null){
                 mCommentImage.setVisibility(View.VISIBLE);
                 emoteComment = pEmotion.getComment();
             }
             mDayText.setText(dateFormat.format(pEmotion.getDate()));
+
+            switch (pEmotion.getEmote()){
+                case VeryBad: cl.setBackgroundColor(Color.RED);
+                    break;
+                case Bad: cl.setBackgroundColor(Color.GRAY);
+                    break;
+                case Normal: cl.setBackgroundColor(Color.BLUE);
+                    break;
+                case Good: cl.setBackgroundColor(Color.GREEN);
+                    break;
+                case Great: cl.setBackgroundColor(Color.YELLOW);
+                    break;
+            }
         }
     }
 
