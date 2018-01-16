@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.debruyckere.florian.moodproject.Model.Emotion;
 import com.debruyckere.florian.moodproject.Model.EmotionType;
+import com.debruyckere.florian.moodproject.Model.OnSwipeTouchListener;
 import com.debruyckere.florian.moodproject.R;
 
 import java.text.DateFormat;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mHistoryImage;
     private ImageView mImageView;
     private Emotion mEmotion= new Emotion();
+    private ConstraintLayout mLayout;
     private EmotionType mType;
     private int emotionSize=0;
     DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mCommentImage =findViewById(R.id.main_comment_image);
         mHistoryImage = findViewById(R.id.main_history_image);
         mImageView = findViewById(R.id.main_emote_image);
+        mLayout = findViewById(R.id.main_Layout);
         mImageView.setImageResource(R.drawable.smiley_normal);
 
         mCommentImage.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +82,19 @@ public class MainActivity extends AppCompatActivity {
                 Intent historyActivity = new Intent(MainActivity.this,Historique_Activity.class);
                 startActivity(historyActivity);
             }
+        });
+
+        mLayout.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
+
+            public void onSwipeTop(){               //Slide to top
+                Toast.makeText(MainActivity.this,"top",Toast.LENGTH_SHORT).show();
+                Log.i("MAIN","Top");
+            }
+            public void onSwipeBottom(){            //Slide to bottom
+                Log.i("MAIN","Bottom");
+                Toast.makeText(MainActivity.this,"bottom",Toast.LENGTH_SHORT).show();
+            }
+
         });
         todayToString();
 
