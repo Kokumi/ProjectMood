@@ -162,15 +162,15 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
             mDayText.setText(dateFormat.format(pEmotion.getDate()));
 
             switch (pEmotion.getEmote()){
-                case VeryBad: cl.setBackgroundColor(Color.RED);
+                case VeryBad: cl.setBackgroundColor(mContext.getResources().getColor(R.color.badRed));
                     break;
-                case Bad: cl.setBackgroundColor(Color.GRAY);
+                case Bad: cl.setBackgroundColor(mContext.getResources().getColor(R.color.dissapointGray));
                     break;
-                case Normal: cl.setBackgroundColor(Color.BLUE);
+                case Normal: cl.setBackgroundColor(mContext.getResources().getColor(R.color.normalBlue));
                     break;
-                case Good: cl.setBackgroundColor(Color.GREEN);
+                case Good: cl.setBackgroundColor(mContext.getResources().getColor(R.color.goodGreen));
                     break;
-                case Great: cl.setBackgroundColor(Color.YELLOW);
+                case Great: cl.setBackgroundColor(mContext.getResources().getColor(R.color.greatYellow));
                     break;
             }
         }

@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="goodGreen">#b7e786</color>
+    <color name="badRed">#dc3c50</color>
+    <color name="normalBlue">#85b2e5</color>
+    <color name="dissapointGray">#9a9a9b</color>
+    <color name="greatYellow">#f6ea50</color>
 </resources>

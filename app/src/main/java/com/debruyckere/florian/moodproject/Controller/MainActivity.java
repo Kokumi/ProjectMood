@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mLayout = findViewById(R.id.main_Layout);
         mImageView.setImageResource(R.drawable.smiley_normal);
         mType = EmotionType.Normal;
-        mLayout.setBackgroundColor(Color.BLUE);
+        mLayout.setBackgroundColor(getResources().getColor(R.color.normalBlue));
 
         mCommentImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,23 +156,23 @@ public class MainActivity extends AppCompatActivity {
         switch (index){
             case 0: mType = EmotionType.VeryBad;
                     mImageView.setImageResource(R.drawable.smiley_sad);
-                    mLayout.setBackgroundColor(Color.RED);
+                    mLayout.setBackgroundColor(getResources().getColor(R.color.badRed));
                 break;
             case 1: mType = EmotionType.Bad;
                     mImageView.setImageResource(R.drawable.smiley_disappointed);
-                    mLayout.setBackgroundColor(Color.GRAY);
+                    mLayout.setBackgroundColor(getResources().getColor(R.color.dissapointGray));
                 break;
             case 2: mType = EmotionType.Normal;
                     mImageView.setImageResource(R.drawable.smiley_normal);
-                    mLayout.setBackgroundColor(Color.BLUE);
+                    mLayout.setBackgroundColor(getResources().getColor(R.color.normalBlue));
                 break;
             case 3: mType = EmotionType.Good;
                     mImageView.setImageResource(R.drawable.smiley_happy);
-                    mLayout.setBackgroundColor(Color.GREEN);
+                    mLayout.setBackgroundColor(getResources().getColor(R.color.goodGreen));
                 break;
             case 4: mType = EmotionType.Great;
                     mImageView.setImageResource(R.drawable.smiley_super_happy);
-                    mLayout.setBackgroundColor(Color.YELLOW);
+                    mLayout.setBackgroundColor(getResources().getColor(R.color.greatYellow));
                 break;
         }
         Log.i("MAIN",mType.toString());
