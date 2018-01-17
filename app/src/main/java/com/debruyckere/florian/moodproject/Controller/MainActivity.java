@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.main_emote_image);
         mLayout = findViewById(R.id.main_Layout);
         mImageView.setImageResource(R.drawable.smiley_normal);
+        mType = EmotionType.Normal;
+        mLayout.setBackgroundColor(Color.BLUE);
 
         mCommentImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,12 +90,12 @@ public class MainActivity extends AppCompatActivity {
         mLayout.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
 
             public void onSwipeTop(){               //Slide to top
-                Toast.makeText(MainActivity.this,"top",Toast.LENGTH_SHORT).show();
+                emoteTypeChanger(true);
                 Log.i("MAIN","Top");
             }
             public void onSwipeBottom(){            //Slide to bottom
                 Log.i("MAIN","Bottom");
-                Toast.makeText(MainActivity.this,"bottom",Toast.LENGTH_SHORT).show();
+                emoteTypeChanger(false);
             }
 
         });
@@ -136,5 +139,42 @@ public class MainActivity extends AppCompatActivity {
         retour = dateFormat.format(d);
         Log.i("MAIN",retour);
         return retour;
+    }
+
+    /**
+     * change emoteType according to the parameter pState
+     * @param pState
+     */
+    int index = 2;
+    private void emoteTypeChanger(boolean pState){
+        if(pState == true){
+            index++;
+        } else {
+            index--;
+        }
+
+        switch (index){
+            case 0: mType = EmotionType.VeryBad;
+                    mImageView.setImageResource(R.drawable.smiley_sad);
+                    mLayout.setBackgroundColor(Color.RED);
+                break;
+            case 1: mType = EmotionType.Bad;
+                    mImageView.setImageResource(R.drawable.smiley_disappointed);
+                    mLayout.setBackgroundColor(Color.GRAY);
+                break;
+            case 2: mType = EmotionType.Normal;
+                    mImageView.setImageResource(R.drawable.smiley_normal);
+                    mLayout.setBackgroundColor(Color.BLUE);
+                break;
+            case 3: mType = EmotionType.Good;
+                    mImageView.setImageResource(R.drawable.smiley_happy);
+                    mLayout.setBackgroundColor(Color.GREEN);
+                break;
+            case 4: mType = EmotionType.Great;
+                    mImageView.setImageResource(R.drawable.smiley_super_happy);
+                    mLayout.setBackgroundColor(Color.YELLOW);
+                break;
+        }
+        Log.i("MAIN",mType.toString());
     }
 }
