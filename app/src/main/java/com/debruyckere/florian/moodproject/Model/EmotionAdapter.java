@@ -58,10 +58,12 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Emotion emotion = new Emotion();
+        Log.i("ADAPTER",""+mEmotions.size());
         if(mEmotions.size()!=0) {
             emotion = mEmotions.get(position);
         }
         else {
+            Log.w("ADAPTER","NO DATA");
             emotion.setDate(Calendar.getInstance().getTime());
             emotion.setEmote(EmotionType.VeryBad);
             emotion.setComment("no data");
@@ -84,6 +86,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
     public void LoadEmote(){
         Log.i("ADAPTER","Emote Loading");
         Date d= Calendar.getInstance().getTime();
+        Log.d("ADAPTER",""+mSharedPreferences.contains(d.getTime()+"_Type"));
         for(int i=1;i<8;i++){
             //verify if sharedpreferences have data here
             if(mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i), null)!=null) {
