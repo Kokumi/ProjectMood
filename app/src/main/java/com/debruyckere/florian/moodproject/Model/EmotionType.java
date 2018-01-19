@@ -9,7 +9,8 @@ public enum EmotionType {
     Bad ("Bad"),
     Normal("Normal"),
     Good("Good"),
-    Great("Great");
+    Great("Great"),
+    NoData("NoData");
 
     private String emoteName = "";
 

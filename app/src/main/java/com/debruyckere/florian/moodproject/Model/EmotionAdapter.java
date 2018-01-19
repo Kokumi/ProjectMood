@@ -60,12 +60,20 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         Emotion emotion = new Emotion();
         Log.i("ADAPTER",""+mEmotions.size());
         if(mEmotions.size()!=0) {
-            emotion = mEmotions.get(position);
+            try {
+                emotion = mEmotions.get(position);
+            } catch(IndexOutOfBoundsException oob){
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE,-position-1);
+                emotion.setDate(cal.getTime());
+                emotion.setEmote(EmotionType.NoData);
+                emotion.setComment("no data");
+            }
         }
         else {
             Log.w("ADAPTER","NO DATA");
             emotion.setDate(Calendar.getInstance().getTime());
-            emotion.setEmote(EmotionType.VeryBad);
+            emotion.setEmote(EmotionType.NoData);
             emotion.setComment("no data");
 
             mListener.noDataReaction();
@@ -89,7 +97,9 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         Log.d("ADAPTER",""+mSharedPreferences.contains(d.getTime()+"_Type"));
         for(int i=1;i<8;i++){
             //verify if sharedpreferences have data here
-            if(mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i), null)!=null) {
+            //if(mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i), null)!=null) {
+            if(mSharedPreferences.contains(dateFormat.format(d.getTime()- (1000*60*60*24)*i)+"_date")){
+                Log.d("ADAPTER","There data to "+dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i));
                 Emotion mEmote = new Emotion();
                 mEmote.setEmote(EmotionType.valueOf(
                         mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_Type",
@@ -101,6 +111,9 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
                         mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_date",
                                 null)));
                 mEmotions.add(mEmote);
+            }
+            else{
+                Log.d("ADAPTER","NO data to "+dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i));
             }
         }
     }
@@ -174,6 +187,8 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
                 case Good: cl.setBackgroundColor(mContext.getResources().getColor(R.color.goodGreen));
                     break;
                 case Great: cl.setBackgroundColor(mContext.getResources().getColor(R.color.greatYellow));
+                    break;
+                case NoData: cl.setBackgroundColor(Color.WHITE);
                     break;
             }
         }
