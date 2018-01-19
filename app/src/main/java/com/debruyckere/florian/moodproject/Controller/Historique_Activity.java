@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.debruyckere.florian.moodproject.Model.EmotionAdapter;
 import com.debruyckere.florian.moodproject.Model.NoDataReaction;
@@ -16,6 +18,7 @@ import com.debruyckere.florian.moodproject.R;
 public class Historique_Activity extends AppCompatActivity implements NoDataReaction{
 
     RecyclerView mEmoteRecycler;
+    Button mStatButton;
     //private SharedPreferences mSharedPreferences = getSharedPreferences("EmoteSave",MODE_PRIVATE);
 
     @Override
@@ -23,9 +26,18 @@ public class Historique_Activity extends AppCompatActivity implements NoDataReac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historique_);
 
+        mStatButton = findViewById(R.id.Histo_Button);
         mEmoteRecycler = findViewById(R.id.Histo_emote_Recycler);
         mEmoteRecycler.setLayoutManager(new LinearLayoutManager(this));
         mEmoteRecycler.setAdapter(new EmotionAdapter(this, this));
+
+        mStatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent StatisticsActivity = new Intent(Historique_Activity.this, StatisticsActivity.class);
+                startActivity(StatisticsActivity);
+            }
+        });
     }
     /*public SharedPreferences loadPreference(){
         return mSharedPreferences;
