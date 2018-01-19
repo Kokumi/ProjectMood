@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
             try {
                 emotion = mEmotions.get(position);
             } catch(IndexOutOfBoundsException oob){
+                Log.i("ADAPTER","no more Data");
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE,-position-1);
                 emotion.setDate(cal.getTime());
@@ -149,7 +151,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
         private ImageView mCommentImage;
         private TextView mDayText;
-        private ConstraintLayout cl;
+        private FrameLayout cl;
         private String emoteComment = "";
 
         public MyViewHolder(final View itemView) {
