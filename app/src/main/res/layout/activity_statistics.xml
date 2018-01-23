@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.debruyckere.florian.moodproject.Controller.StatisticsActivity">
 
-    <LinearLayout
-        android:id="@+id/stat_Chart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"></LinearLayout>
-
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/stat_piechart"
         android:layout_height="match_parent"

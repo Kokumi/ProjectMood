@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,7 +21,6 @@ import com.debruyckere.florian.moodproject.Model.OnSwipeTouchListener;
 import com.debruyckere.florian.moodproject.R;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private Emotion mEmotion = new Emotion();
     private ConstraintLayout mLayout;
     private EmotionType mType;
-    private int emotionSize = 0;
     DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
     InputMethodManager imm;
 
@@ -52,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         mLayout = findViewById(R.id.main_Layout);
 
         firstLoad();
+
+        //add reaction to the comment button
         mCommentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Comentaire", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //add reaction to the history button
         mHistoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //add slide reaction
         mLayout.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
 
             public void onSwipeTop() {               //Slide to top
@@ -112,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(todayToString() + "_Type", mType.toString());
         editor.putString(todayToString() + "_com", mEmotion.getComment());
         editor.putString(todayToString() + "_date", todayToString());
-        //editor.apply();
         editor.commit();
 
         }
@@ -142,13 +142,12 @@ public class MainActivity extends AppCompatActivity {
         return retour;
     }
 
+    int index = 2;
     /**
      * change emoteType, background and imageView according to the parameter pState
      *
      * @param pState
      */
-    int index = 2;
-
     private void emoteTypeChanger(boolean pState) {
         if (pState == true) {
             index++;
@@ -186,12 +185,18 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MAIN", mType.toString());
     }
 
+    /**
+     * save current data when the activity is destroy
+     */
     @Override
     public void onDestroy(){
         addEmotion();
-
         super.onDestroy();
     }
+
+    /**
+     * Load data of the current day
+     */
     public void firstLoad(){
         Log.i("MAIN","FirstLoad");
         if(mSharedPreferences.contains(todayToString()+"_Type")){

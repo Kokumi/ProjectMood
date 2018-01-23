@@ -5,19 +5,13 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.LinearLayout;
 
-import com.debruyckere.florian.moodproject.Model.Emotion;
 import com.debruyckere.florian.moodproject.Model.EmotionType;
 import com.debruyckere.florian.moodproject.R;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,17 +21,11 @@ import java.util.List;
 
 public class StatisticsActivity extends AppCompatActivity {
 
-    private LinearLayout mStatChart;
     private com.github.mikephil.charting.charts.PieChart mPieChart;
-    private static int[] colors = new int[] {R.color.badRed, R.color.dissapointGray,R.color.normalBlue,
-                                             R.color.goodGreen, R.color.greatYellow};
     private List colorsList = new ArrayList();
-    private static double[] values = new double[]{10,11,12,13,14};
-    private static String[] nameList = new String[]{"bad" , "dissapoint","normal","good","great"};
     private SharedPreferences mSharedPreferences;
-    private List emotionLabels = new ArrayList();
-    DateFormat dateFormat ;
-    List emotionEntries = new ArrayList();
+    private DateFormat dateFormat ;
+    private List emotionEntries = new ArrayList();
 
 
     @Override
@@ -45,39 +33,35 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        mStatChart = findViewById(R.id.stat_Chart);
         mPieChart = findViewById(R.id.stat_piechart);
         mSharedPreferences = getSharedPreferences("EmoteSave", MODE_PRIVATE);
         dateFormat= android.text.format.DateFormat.getDateFormat(StatisticsActivity.this);
 
         loadData();
-        emotionLabels.add("VeryBad");
-        emotionLabels.add("Bad");
-        emotionLabels.add("Normal");
-        emotionLabels.add("Good");
-        emotionLabels.add("Great");
 
+        //Create the Colors Set
         colorsList.add(getResources().getColor(R.color.badRed));
         colorsList.add(getResources().getColor(R.color.dissapointGray));
         colorsList.add(getResources().getColor(R.color.normalBlue));
         colorsList.add(getResources().getColor(R.color.goodGreen));
         colorsList.add(getResources().getColor(R.color.greatYellow));
 
+        //create the Chart
         PieDataSet dataSet = new PieDataSet(emotionEntries,"numbers of emotion of 7 days before");
         dataSet.setColors(colorsList);
         mPieChart.setData(new PieData(dataSet));
         mPieChart.setEntryLabelTextSize(20);
         mPieChart.invalidate(); //refresh
     }
-//new Entry(numberEmoteInData, numberReal);
 
+    /**
+     * Load data from Shared preference
+     */
     private void loadData(){
         Log.i("STATACTIVITY","Emote Loading");
         Date d= Calendar.getInstance().getTime();
 
-        //Table of all emote : VeryBad, Bad, Normal, Good, Great
-        int[] emotionTable = new int[]{0,0,0,0,0};
-
+        // instanciate emotion counter
         int nbVeryBad = 0;
         int nbBad = 0;
         int nbNormal = 0;
@@ -88,11 +72,12 @@ public class StatisticsActivity extends AppCompatActivity {
             //verify if sharedpreferences have data here
             if(mSharedPreferences.contains(dateFormat.format(d.getTime()- (1000*60*60*24)*i)+"_date")){
                 Log.d("ADAPTER","There data to "+dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i));
-                Emotion mEmote = new Emotion();
+
                 EmotionType emotionType = (EmotionType.valueOf(
                         mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_Type",
                                 "Normal")));
 
+                // add one to the correct emotion counter
                 switch (emotionType){
                     case VeryBad: nbVeryBad++;
                         break;
@@ -111,6 +96,7 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         }
 
+        // set Entry of the pie chart
         emotionEntries.add(new PieEntry(nbVeryBad,"VeryBad"));
         emotionEntries.add(new PieEntry(nbBad,"Bad"));
         emotionEntries.add(new PieEntry(nbNormal,"Normal"));

@@ -4,16 +4,10 @@ package com.debruyckere.florian.moodproject.Model;
  * Created by Debruyckère Florian on 01/01/2018.
  */
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.debruyckere.florian.moodproject.Controller.Historique_Activity;
-import com.debruyckere.florian.moodproject.Controller.MainActivity;
 import com.debruyckere.florian.moodproject.R;
 
 import java.text.DateFormat;
@@ -33,8 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;

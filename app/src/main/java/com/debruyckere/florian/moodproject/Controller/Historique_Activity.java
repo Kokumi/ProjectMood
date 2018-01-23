@@ -2,7 +2,6 @@ package com.debruyckere.florian.moodproject.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ public class Historique_Activity extends AppCompatActivity implements NoDataReac
 
     RecyclerView mEmoteRecycler;
     Button mStatButton;
-    //private SharedPreferences mSharedPreferences = getSharedPreferences("EmoteSave",MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +37,6 @@ public class Historique_Activity extends AppCompatActivity implements NoDataReac
             }
         });
     }
-    /*public SharedPreferences loadPreference(){
-        return mSharedPreferences;
-    }*/
 
     /**
      * Return to the mainActivity if there no data in mSharedPreferences
