@@ -66,6 +66,7 @@ public class StatisticsActivity extends AppCompatActivity {
         PieDataSet dataSet = new PieDataSet(emotionEntries,"numbers of emotion of 7 days before");
         dataSet.setColors(colorsList);
         mPieChart.setData(new PieData(dataSet));
+        mPieChart.setEntryLabelTextSize(20);
         mPieChart.invalidate(); //refresh
     }
 //new Entry(numberEmoteInData, numberReal);
