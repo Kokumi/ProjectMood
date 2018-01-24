@@ -4,6 +4,7 @@ package com.debruyckere.florian.moodproject.Model;
  * Created by Debruyckère Florian on 01/01/2018.
  */
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -53,6 +54,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         if(mEmotions.size()!=0) {
             try {
                 emotion = mEmotions.get(position);
+                holder.display(emotion);
             } catch(IndexOutOfBoundsException oob){
                 Log.i("ADAPTER","no more Data");
                 Calendar cal = Calendar.getInstance();
@@ -70,7 +72,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
             mListener.noDataReaction();
         }
-        holder.display(emotion);
+        //holder.display(emotion);
 
     }
 
@@ -147,7 +149,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         public MyViewHolder(final View itemView) {
             super(itemView);
 
-            cl= itemView.findViewById(R.id.cell_Layout);
+            cl= itemView.findViewById(R.id.cell_EmoteContenaire);
             mCommentImage = itemView.findViewById(R.id.cell_Image);
             mDayText = itemView.findViewById(R.id.cell_Text);
             mCommentImage.setVisibility(View.INVISIBLE);
@@ -171,14 +173,19 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
             switch (pEmotion.getEmote()){
                 case VeryBad: cl.setBackgroundColor(mContext.getResources().getColor(R.color.badRed));
+                            cl.setLayoutParams(new FrameLayout.LayoutParams(188,FrameLayout.LayoutParams.MATCH_PARENT));
                     break;
                 case Bad: cl.setBackgroundColor(mContext.getResources().getColor(R.color.dissapointGray));
+                            cl.setLayoutParams(new FrameLayout.LayoutParams(336,FrameLayout.LayoutParams.MATCH_PARENT));
                     break;
                 case Normal: cl.setBackgroundColor(mContext.getResources().getColor(R.color.normalBlue));
+                            cl.setLayoutParams(new FrameLayout.LayoutParams(700,FrameLayout.LayoutParams.MATCH_PARENT));
                     break;
                 case Good: cl.setBackgroundColor(mContext.getResources().getColor(R.color.goodGreen));
+                            cl.setLayoutParams(new FrameLayout.LayoutParams(1036,FrameLayout.LayoutParams.MATCH_PARENT));
                     break;
                 case Great: cl.setBackgroundColor(mContext.getResources().getColor(R.color.greatYellow));
+                    cl.setLayoutParams(new FrameLayout.LayoutParams(1400,FrameLayout.LayoutParams.MATCH_PARENT));
                     break;
                 case NoData: cl.setBackgroundColor(Color.WHITE);
                     break;

@@ -6,6 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cell_EmoteContenaire">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,5 +25,6 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         />
+    </FrameLayout>
 
 </FrameLayout>
