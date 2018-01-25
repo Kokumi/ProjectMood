@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
     private SharedPreferences mSharedPreferences;
     private ImageView mCommentImage;
     private ImageView mHistoryImage;
@@ -110,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MAIN", "add emotion");
         mEmotion.setEmote(mType);
         SharedPreferences.Editor editor = mSharedPreferences.edit();
+        //save data with the current day as key
         editor.putString(todayToString() + "_Type", mType.toString());
         editor.putString(todayToString() + "_com", mEmotion.getComment());
         editor.putString(todayToString() + "_date", todayToString());
         editor.commit();
-
         }
 
     /**
@@ -142,19 +143,21 @@ public class MainActivity extends AppCompatActivity {
         return retour;
     }
 
-    int index = 2;
+    int index = 2;      //index of emotion
     /**
      * change emoteType, background and imageView according to the parameter pState
-     *
-     * @param pState
+     * @param pState true if the user slide to top
      */
     private void emoteTypeChanger(boolean pState) {
         if (pState == true) {
-            index++;
-        } else {
+            //if the user slide to top the emotion change to worse
             index--;
+        } else {
+            // if the user slide to bottom the emotion change to better
+            index++;
         }
 
+        //apply the emotion change
         switch (index) {
             case 0:
                 mType = EmotionType.VeryBad;
@@ -199,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void firstLoad(){
         Log.i("MAIN","FirstLoad");
+        //load data save of the current day
         if(mSharedPreferences.contains(todayToString()+"_Type")){
             mType =(EmotionType.valueOf(
                     mSharedPreferences.getString(todayToString() + "_Type",
@@ -212,21 +216,27 @@ public class MainActivity extends AppCompatActivity {
             Log.i("MAIN","First Load of day");
         }
 
+        //apply the emotion
         switch (mType){
             case VeryBad:   mLayout.setBackgroundColor(getResources().getColor(R.color.badRed));
                             mImageView.setImageResource(R.drawable.smiley_sad);
+                            index = 0;
                 break;
             case Bad:       mLayout.setBackgroundColor(getResources().getColor(R.color.dissapointGray));
                             mImageView.setImageResource(R.drawable.smiley_disappointed);
+                            index = 1;
                 break;
             case Normal:    mLayout.setBackgroundColor(getResources().getColor(R.color.normalBlue));
                             mImageView.setImageResource(R.drawable.smiley_normal);
+                            index = 2;
                 break;
             case Good:      mLayout.setBackgroundColor(getResources().getColor(R.color.goodGreen));
                             mImageView.setImageResource(R.drawable.smiley_happy);
+                            index = 3;
                 break;
             case Great:     mLayout.setBackgroundColor(getResources().getColor(R.color.greatYellow));
                             mImageView.setImageResource(R.drawable.smiley_super_happy);
+                            index = 4;
                 break;
 
         }

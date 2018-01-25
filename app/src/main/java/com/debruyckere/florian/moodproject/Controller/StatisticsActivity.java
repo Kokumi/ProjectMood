@@ -48,9 +48,9 @@ public class StatisticsActivity extends AppCompatActivity {
 
         //create the Chart
         PieDataSet dataSet = new PieDataSet(emotionEntries,"numbers of emotion of 7 days before");
-        dataSet.setColors(colorsList);
-        mPieChart.setData(new PieData(dataSet));
-        mPieChart.setEntryLabelTextSize(20);
+        dataSet.setColors(colorsList);              // set color pallet to the chart
+        mPieChart.setData(new PieData(dataSet));    // set data to the chart
+        mPieChart.setEntryLabelTextSize(20);        // modify the text size of data name
         mPieChart.invalidate(); //refresh
     }
 
@@ -61,7 +61,7 @@ public class StatisticsActivity extends AppCompatActivity {
         Log.i("STATACTIVITY","Emote Loading");
         Date d= Calendar.getInstance().getTime();
 
-        // instanciate emotion counter
+        // instantiate emotion counter
         int nbVeryBad = 0;
         int nbBad = 0;
         int nbNormal = 0;
@@ -77,7 +77,7 @@ public class StatisticsActivity extends AppCompatActivity {
                         mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i) + "_Type",
                                 "Normal")));
 
-                // add one to the correct emotion counter
+                // add one counter to the correct emotion counter
                 switch (emotionType){
                     case VeryBad: nbVeryBad++;
                         break;

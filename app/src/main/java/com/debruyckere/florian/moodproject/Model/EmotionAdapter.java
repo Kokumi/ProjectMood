@@ -4,7 +4,6 @@ package com.debruyckere.florian.moodproject.Model;
  * Created by Debruyckère Florian on 01/01/2018.
  */
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -39,7 +38,11 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
     DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 
-    //Builder
+    /**
+     * Builder of adapter
+     * @param pContext  context the activity who called adapter
+     * @param pListener  NoDataReaction interface
+     */
     public EmotionAdapter(Context pContext, NoDataReaction pListener){
         mContext = pContext;
         mListener = pListener;
@@ -49,31 +52,24 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Emotion emotion = new Emotion();
+        Emotion emotion;
         Log.i("ADAPTER",""+mEmotions.size());
+
+        //verify if there data loaded
         if(mEmotions.size()!=0) {
             try {
                 emotion = mEmotions.get(position);
                 holder.display(emotion);
             } catch(IndexOutOfBoundsException oob){
+                // in case there don't 7 emotions loaded
                 Log.i("ADAPTER","no more Data");
-                Calendar cal = Calendar.getInstance();
-                cal.add(Calendar.DATE,-position-1);
-                emotion.setDate(cal.getTime());
-                emotion.setEmote(EmotionType.NoData);
-                emotion.setComment("no data");
             }
         }
         else {
             Log.w("ADAPTER","NO DATA");
-            emotion.setDate(Calendar.getInstance().getTime());
-            emotion.setEmote(EmotionType.NoData);
-            emotion.setComment("no data");
 
             mListener.noDataReaction();
         }
-        //holder.display(emotion);
-
     }
 
 
@@ -89,9 +85,10 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         Log.i("ADAPTER","Emote Loading");
         Date d= Calendar.getInstance().getTime();
         Log.d("ADAPTER",""+mSharedPreferences.contains(d.getTime()+"_Type"));
+
+        // Load data from 7 days before
         for(int i=1;i<8;i++){
-            //verify if sharedpreferences have data here
-            //if(mSharedPreferences.getString(dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i), null)!=null) {
+            //verify if sharedpreferences have data of the previous days
             if(mSharedPreferences.contains(dateFormat.format(d.getTime()- (1000*60*60*24)*i)+"_date")){
                 Log.d("ADAPTER","There data to "+dateFormat.format(d.getTime() - (1000 * 60 * 60 * 24) * i));
                 Emotion mEmote = new Emotion();
@@ -114,8 +111,8 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
     /**
      * convert a String parameter to a date
-     * @param pString
-     * @return
+     * @param pString Date to convert
+     * @return date in Date type
      */
     private Date stringToDate(String pString){
         Date retour;
@@ -129,9 +126,14 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
        return null;
     }
 
+    /**
+     * create cells
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.emote_cell, parent, false);
         return new MyViewHolder(view);
@@ -146,6 +148,10 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
         private FrameLayout cl;
         private String emoteComment = "";
 
+        /**
+         * constructor of cells
+         * @param itemView cell
+         */
         public MyViewHolder(final View itemView) {
             super(itemView);
 
@@ -163,6 +169,10 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
 
         }
 
+        /**
+         * display in the cell the emotion in params
+         * @param pEmotion emotion to be displayed
+         */
         public void display(Emotion pEmotion){
             // display the comment image if the emotion have a comment
             if(pEmotion.getComment()!=null){
@@ -171,6 +181,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
             }
             mDayText.setText(dateFormat.format(pEmotion.getDate()));
 
+            // apply the correct visual to cell
             switch (pEmotion.getEmote()){
                 case VeryBad: cl.setBackgroundColor(mContext.getResources().getColor(R.color.badRed));
                             cl.setLayoutParams(new FrameLayout.LayoutParams(188,FrameLayout.LayoutParams.MATCH_PARENT));

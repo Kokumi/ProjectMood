@@ -29,6 +29,7 @@ public class Historique_Activity extends AppCompatActivity implements NoDataReac
         mEmoteRecycler.setLayoutManager(new LinearLayoutManager(this));
         mEmoteRecycler.setAdapter(new EmotionAdapter(this, this));
 
+        //add Reaction to the Statistic button
         mStatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
