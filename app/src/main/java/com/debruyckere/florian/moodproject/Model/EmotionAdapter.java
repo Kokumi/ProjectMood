@@ -36,7 +36,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
     private List<Emotion> mEmotions=new ArrayList<>();
     private NoDataReaction mListener;
 
-    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
+    DateFormat dateFormat ;//= android.text.format.DateFormat.getDateFormat(mContext);
 
     /**
      * Builder of adapter
@@ -46,6 +46,7 @@ public class EmotionAdapter extends RecyclerView.Adapter<EmotionAdapter.MyViewHo
     public EmotionAdapter(Context pContext, NoDataReaction pListener){
         mContext = pContext;
         mListener = pListener;
+        dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
         mSharedPreferences = mContext.getSharedPreferences("EmoteSave",MODE_PRIVATE);
         LoadEmote();
     }

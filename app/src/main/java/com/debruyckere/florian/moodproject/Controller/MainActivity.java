@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private Emotion mEmotion = new Emotion();
     private ConstraintLayout mLayout;
     private EmotionType mType;
-    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
+    //DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(MainActivity.this);
+    private DateFormat dateFormat;
     InputMethodManager imm;
 
     @Override
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dateFormat =android.text.format.DateFormat.getDateFormat(MainActivity.this);
         mSharedPreferences = getSharedPreferences("EmoteSave", MODE_PRIVATE);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mCommentImage = findViewById(R.id.main_comment_image);
