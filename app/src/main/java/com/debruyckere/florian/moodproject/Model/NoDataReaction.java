@@ -5,5 +5,5 @@ package com.debruyckere.florian.moodproject.Model;
  */
 
 public interface NoDataReaction {
-    public void noDataReaction();
+    void noDataReaction();
 }

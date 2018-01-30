@@ -11,9 +11,6 @@ public class Emotion {
     private EmotionType mEmote;
     private Date mDate;
 
-    public Emotion(EmotionType pEmote){
-        mEmote = pEmote;
-    }
     public Emotion(){ }
 
     public void setComment(String pText){
