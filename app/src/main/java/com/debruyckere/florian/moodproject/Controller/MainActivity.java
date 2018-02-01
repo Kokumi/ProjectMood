@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pState true if the user slide to top
      */
     private void emoteTypeChanger(boolean pState) {
-        if (pState == true) {
+        if (pState) {
             //if the user slide to top the emotion change to worse
             index--;
         } else {
