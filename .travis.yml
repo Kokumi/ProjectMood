@@ -1,0 +1,18 @@
+language: java
+
+install:
+ - gradle assemble
+ - sudo ./gradlew assemble
+
+before_install:
+ - chmod +x gradlew
+
+script:
+ - gradle check
+ - ./gradlew check
+
+android:
+ components:
+ licenses:
+   - android-sdk-preview-license-.+
+   - android-sdk-license-.+
